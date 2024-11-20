@@ -227,16 +227,7 @@ mod tests {
 
         let B = cl.encrypt_randomness_bound();
 
-        let proof = CLRandYuanProof::prove(
-            &cl,
-            &mut rng,
-            &ct1_pow,
-            &ct.c1(),
-            &alpha,
-            &r,
-            &q,
-            &B
-        );
+        let proof = CLRandYuanProof::prove(&cl, &mut rng, &ct1_pow, &ct.c1(), &alpha, &r, &q, &B);
         proof.verify(&cl, &ct1_pow, &ct.c1(), &q);
     }
 }

@@ -2,6 +2,9 @@ use bicycl::QFI;
 use bls12_381::{G1Affine, G2Affine};
 use sha2::{Digest, Sha256};
 
+pub mod pvss;
+pub use pvss::*;
+
 pub fn commit_G2(B: &G2Affine) -> Vec<u8> {
     let mut hasher = Sha256::new();
     for item in &[B.to_compressed()] {
