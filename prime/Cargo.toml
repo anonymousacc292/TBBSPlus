@@ -1,0 +1,16 @@
+[package]
+version = "0.1.0"
+authors = ["root"]
+edition = "2018"
+name = "cgenprime"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[build-dependencies]
+dunce = "1.0.4"
+
+[dependencies]
+libc = "~0.2"
+num-traits = "0.1"
+foreign-types = "0.3.1"
+#rust-gmp = { version = "0.5.0", features = ["serde_support"], git = "https://github.com/KZen-networks/rust-gmp" }
+rust-gmp = "0.5.0"
