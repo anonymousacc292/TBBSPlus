@@ -84,7 +84,7 @@ impl Sign {
                 &gamma_i,
                 &r,
                 &q,
-                &cl.encrypt_randomness_bound()
+                &cl.encrypt_randomness_bound(),
             );
 
             es.push(e);
