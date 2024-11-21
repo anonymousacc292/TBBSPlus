@@ -5,6 +5,9 @@ use sha2::{Digest, Sha256};
 pub mod pvss;
 pub use pvss::*;
 
+pub mod zero_shares;
+pub use zero_shares::*;
+
 pub fn commit_G2(B: &G2Affine) -> Vec<u8> {
     let mut hasher = Sha256::new();
     for item in &[B.to_compressed()] {

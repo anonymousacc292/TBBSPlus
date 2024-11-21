@@ -99,10 +99,7 @@ impl PVSS {
         dis
     }
 
-    pub fn lagrange_coeffs_times_n_factorial(
-        t: usize,
-        n_factorial: &Mpz,
-    ) -> BTreeMap<usize, Mpz> {
+    pub fn lagrange_coeffs_times_n_factorial(t: usize, n_factorial: &Mpz) -> BTreeMap<usize, Mpz> {
         let mut coeffs = BTreeMap::new();
         for i in 1..=t {
             let mut result = n_factorial.clone();
@@ -167,7 +164,7 @@ mod tests {
         for (_, item) in key_msg.cl_keys.sk_shares {
             left_sum = left_sum + item;
         }
-        left_sum = left_sum * n_factorial.clone()* n_factorial.clone()* n_factorial.clone();
+        left_sum = left_sum * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
         let dis = PVSS::recover(&pvssmsg, t, n, &n_factorial);
         let mut right_sum = Mpz::from(0u64);
         for (_, item) in dis {
