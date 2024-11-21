@@ -1,5 +1,3 @@
-
-
 pub mod sebbsplus;
 use bls12_381::G1Affine;
 pub use sebbsplus::*;

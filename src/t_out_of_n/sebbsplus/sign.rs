@@ -13,6 +13,7 @@ pub struct Sign {
     pub zis: BTreeMap<usize, Scalar>,
     pub Bis: BTreeMap<usize, G1Projective>,
     pub pdis: BTreeMap<usize, QFI>,
+    pub n_cube: Mpz,
 }
 
 impl Sign {
@@ -127,6 +128,9 @@ impl Sign {
 
         let H = key_msg.sign_keys.H.clone();
 
+        let n_cube = key_msg.cl_keys.n_factorial.clone()
+            * key_msg.cl_keys.n_factorial.clone()
+            * key_msg.cl_keys.n_factorial.clone();
         for i in 1..=n {
             let mut B = G1Projective::generator();
             let e = es[i - 1];
@@ -145,7 +149,8 @@ impl Sign {
             let zi = gamma_i * e - rho_i;
 
             let pd_i = ct1.exp(cl, &d_i);
-            let v_yi = ct2.compose(cl, &cl.power_of_f(&Mpz::from(&rho_i)));
+            let mut v_yi = ct2.compose(cl, &cl.power_of_f(&Mpz::from(&rho_i)));
+            v_yi = v_yi.exp(cl, &n_cube);
 
             let pd_i_v2 = v_yi.compose(&cl, &pd_i.exp(&cl, &Mpz::from(-1i64)));
 
@@ -162,6 +167,7 @@ impl Sign {
             zis,
             Bis,
             pdis,
+            n_cube,
         }
     }
 
@@ -192,10 +198,11 @@ impl Sign {
 
         let y = cl.dlog_in_F(&pd);
 
-        // let mut y_bytes:[u8; 64] = y.to_bytes().try_into().unwrap();
-        // y_bytes.reverse();
-        // let y_scalar = Scalar::from_bytes_wide(&y_bytes);
-        let y_scalar = Scalar::from_str_vartime(&y.to_string()).unwrap();
+        let mut y_scalar = Scalar::from_str_vartime(&y.to_string()).unwrap();
+
+        let mut f_cube = Scalar::from_str_vartime(&sign_msg.n_cube.to_string()).unwrap();
+        f_cube = f_cube.invert().unwrap().clone();
+        y_scalar = y_scalar * f_cube;
 
         let inv = (y_scalar + beta).invert().unwrap();
         let A = B * inv;
@@ -237,6 +244,7 @@ mod tests {
             false,
         );
         let n = 5;
+        let t = 5;
         let l = 10;
         let mut msg: Vec<Scalar> = Vec::with_capacity(l);
 
@@ -244,8 +252,8 @@ mod tests {
             let tmp = Scalar::random(scalr_rng.clone());
             msg.push(tmp);
         }
-        let key_msg = KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
-        let sign_msg = Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
+        let key_msg = KeyGen::keygen(&cl, t, n, l, &mut rng, &mut scalr_rng);
+        let sign_msg = Sign::sign(&cl, t, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
         Sign::client(&cl, &sign_msg, &msg, l);
     }
 }

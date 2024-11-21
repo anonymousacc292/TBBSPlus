@@ -1,4 +1,4 @@
-use crate::ComZkDlComClproof;
+use crate::{ComZkDlComClproof, PVSS};
 
 use super::*;
 
@@ -12,6 +12,7 @@ pub struct KeyGen {
 pub struct CLKeys {
     pub sk_shares: BTreeMap<usize, Mpz>,
     pub pub_key: PublicKey,
+    pub n_factorial: Mpz,
 }
 #[derive(Clone)]
 pub struct SignKeys {
@@ -28,6 +29,7 @@ impl KeyGen {
         chacharng: &mut ChaChaRng,
         cl: &CL_HSMqk,
         n: usize,
+        t: usize,
     ) -> CLKeys {
         // let mut rng = RandGen::new();
         let mut each_party_gen = Vec::with_capacity(n as usize);
@@ -75,7 +77,34 @@ impl KeyGen {
             }
         }
         let pub_key = PublicKey::from_qfi(&cl, &each_party_pubkey[0]);
-        CLKeys { sk_shares, pub_key }
+
+        let mut n_factorial = Mpz::from(1u64);
+        for i in 1..=n {
+            n_factorial = Mpz::from(i as u64) * &n_factorial;
+        }
+        let pvssmsg = PVSS::share(
+            &cl,
+            rng,
+            chacharng,
+            &sk_shares,
+            &cl.encrypt_randomness_bound(),
+            t,
+            n,
+            &n_factorial,
+        );
+
+        sk_shares = PVSS::recover(&pvssmsg, t, n, &n_factorial);
+        // let left_sum = d * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
+        // let mut right_sum = Mpz::from(0u64);
+        // for (_, item) in sk_shares.clone() {
+        //     right_sum = right_sum + item;
+        // }
+        // assert_eq!(left_sum, right_sum);
+        CLKeys {
+            sk_shares,
+            pub_key,
+            n_factorial,
+        }
     }
 
     pub fn signkeygen(chacharng: &mut ChaChaRng, n: usize, l: usize) -> SignKeys {
@@ -184,12 +213,13 @@ impl KeyGen {
 
     pub fn keygen(
         cl: &CL_HSMqk,
+        t: usize,
         n: usize,
         l: usize,
         rng: &mut RandGen,
         chacharng: &mut ChaChaRng,
     ) -> Self {
-        let cl_keys = Self::clkeygen(rng, chacharng, cl, n);
+        let cl_keys = Self::clkeygen(rng, chacharng, cl, n, t);
         let sign_keys = Self::signkeygen(chacharng, n, l);
 
         let mut msgs = Vec::with_capacity(n as usize);
@@ -283,6 +313,9 @@ mod tests {
             false,
         );
 
-        KeyGen::keygen(&cl, 5, 5, &mut rng, &mut scalr_rng);
+        let n = 5;
+        let t = 3;
+
+        KeyGen::keygen(&cl, 3, 5, 5, &mut rng, &mut scalr_rng);
     }
 }

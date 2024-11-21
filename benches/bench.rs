@@ -60,19 +60,30 @@ fn criterion_benchmark(c: &mut Criterion) {
     let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
     group.bench_function("Benchmarking sign SEBBS+ for 10 parties", |b| {
         b.iter(|| {
-            let _ = n_out_of_n::sebbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
+            let _ = n_out_of_n::sebbsplus::Sign::sign(
+                &cl,
+                n,
+                l,
+                &mut rng,
+                &mut scalr_rng,
+                &key_msg,
+                &msg,
+                &q,
+            );
         })
     });
 
     let key_msg = n_out_of_n::wmc24::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
     group.bench_function("Benchmarking sign wmc24 for 10 parties", |b| {
         b.iter(|| {
-            let _ = n_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
+            let _ =
+                n_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
         })
     });
 
     let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
-    let sign_msg = n_out_of_n::sebbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
+    let sign_msg =
+        n_out_of_n::sebbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
     group.bench_function("Benchmarking client SEBBS+ for 10 parties", |b| {
         b.iter(|| {
             n_out_of_n::sebbsplus::Sign::client(&cl, &sign_msg, &msg, l);
@@ -80,7 +91,8 @@ fn criterion_benchmark(c: &mut Criterion) {
     });
 
     let key_msg = n_out_of_n::wmc24::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
-    let sign_msg = n_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
+    let sign_msg =
+        n_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
     group.bench_function("Benchmarking client wmc24 for 10 parties", |b| {
         b.iter(|| {
             n_out_of_n::wmc24::Sign::client(&cl, &sign_msg);
@@ -106,19 +118,30 @@ fn criterion_benchmark(c: &mut Criterion) {
     let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
     group.bench_function("Benchmarking sign SEBBS+ for 20 parties", |b| {
         b.iter(|| {
-            let _ = n_out_of_n::sebbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
+            let _ = n_out_of_n::sebbsplus::Sign::sign(
+                &cl,
+                n,
+                l,
+                &mut rng,
+                &mut scalr_rng,
+                &key_msg,
+                &msg,
+                &q,
+            );
         })
     });
 
     let key_msg = n_out_of_n::wmc24::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
     group.bench_function("Benchmarking sign wmc24 for 20 parties", |b| {
         b.iter(|| {
-            let _ = n_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
+            let _ =
+                n_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
         })
     });
 
     let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
-    let sign_msg = n_out_of_n::sebbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
+    let sign_msg =
+        n_out_of_n::sebbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
     group.bench_function("Benchmarking client SEBBS+ for 20 parties", |b| {
         b.iter(|| {
             n_out_of_n::sebbsplus::Sign::client(&cl, &sign_msg, &msg, l);
@@ -126,13 +149,13 @@ fn criterion_benchmark(c: &mut Criterion) {
     });
 
     let key_msg = n_out_of_n::wmc24::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
-    let sign_msg = n_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
+    let sign_msg =
+        n_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
     group.bench_function("Benchmarking client wmc24 for 20 parties", |b| {
         b.iter(|| {
             n_out_of_n::wmc24::Sign::client(&cl, &sign_msg);
         })
     });
-
 }
 
 criterion_group!(benches, criterion_benchmark);

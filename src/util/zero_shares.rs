@@ -54,7 +54,7 @@ impl ZeroShare {
             beta_t_is.insert(i, beta_t_i);
         }
         assert_eq!(Mpz::from(0u64), sum);
-        ZeroShare{ beta_t_is }
+        ZeroShare { beta_t_is }
     }
 }
 
@@ -66,7 +66,7 @@ mod tests {
     use rand::SeedableRng;
     use rand_chacha::ChaChaRng;
 
-    use crate::{MODULUS};
+    use crate::MODULUS;
 
     use super::*;
     #[test]

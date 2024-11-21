@@ -120,7 +120,7 @@ impl PVSS {
 mod tests {
     use bls12_381::Scalar;
     use curv::{arithmetic::Converter, BigInt};
-    use ff::Field;
+    use ff::{Field, PrimeField};
     use rand::SeedableRng;
 
     use crate::{n_out_of_n::sebbsplus::KeyGen,MODULUS};
@@ -161,16 +161,38 @@ mod tests {
             &n_factorial,
         );
         let mut left_sum = Mpz::from(0u64);
-        for (_, item) in key_msg.cl_keys.sk_shares {
+        for (_, item) in key_msg.cl_keys.sk_shares.clone() {
             left_sum = left_sum + item;
         }
-        left_sum = left_sum * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
+        // left_sum = left_sum * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
         let dis = PVSS::recover(&pvssmsg, t, n, &n_factorial);
         let mut right_sum = Mpz::from(0u64);
         for (_, item) in dis {
             right_sum = right_sum + item;
         }
+        let cube = Mpz::from(17u64);
 
-        assert_eq!(left_sum, right_sum);
+        let mut f=cl.power_of_f(&Mpz::from(1u64));
+        for (i, item) in key_msg.cl_keys.sk_shares {
+            if i == 1{
+                f = cl.power_of_f(&item);
+            }else {
+                f = f.compose(&cl, &cl.power_of_f(&item));
+            }
+        }
+        f = f.exp(&cl, &cube);
+        let mut f_left = cl.dlog_in_F(&f);
+        let mut f_left_scalar = Scalar::from_str_vartime(&f_left.to_string()).unwrap();
+        let mut f_cube = Scalar::from_str_vartime(&cube.to_string()).unwrap();
+        f_cube = f_cube.invert().unwrap().clone();
+        f_left_scalar = f_left_scalar * f_cube;
+        // let f_left_scalar = Scalar::from_str_vartime(&f_left.to_string()).unwrap();
+        f_left = Mpz::from(&f_left_scalar);
+
+        f = cl.power_of_f(&left_sum);
+        let f_left_sum = cl.dlog_in_F(&f);
+
+        assert_eq!(f_left_sum, f_left);
+        
     }
 }
