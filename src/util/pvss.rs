@@ -84,7 +84,7 @@ impl PVSS {
 
     pub fn recover(pv: &PVSS, t: usize, n: usize, n_factorial: &Mpz) -> BTreeMap<usize, Mpz> {
         let mut dis = BTreeMap::new();
-        let lag_coes = Self::lagrange_coeffs_times_n_factorial(t, n, n_factorial);
+        let lag_coes = Self::lagrange_coeffs_times_n_factorial(t, n_factorial);
         for i in 1..=t {
             let lagi = lag_coes.get(&i).unwrap().clone();
             // lagi = lagi.clone() * n_factorial ;
@@ -101,7 +101,6 @@ impl PVSS {
 
     pub fn lagrange_coeffs_times_n_factorial(
         t: usize,
-        n: usize,
         n_factorial: &Mpz,
     ) -> BTreeMap<usize, Mpz> {
         let mut coeffs = BTreeMap::new();
