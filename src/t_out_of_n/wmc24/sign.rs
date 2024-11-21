@@ -253,7 +253,7 @@ impl Sign {
                             &eg_pk,
                             &gamma_i_e_x_ciphertext,
                             &e_x_ciphertext,
-                            &eg_ciphertext,
+                            eg_ciphertext,
                             &B,
                         ) {
                             //Some((*j, gammai_ciphertext.clone(), proof.clone()))

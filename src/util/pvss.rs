@@ -123,7 +123,7 @@ mod tests {
     use ff::Field;
     use rand::SeedableRng;
 
-    use crate::{sebbsplus::KeyGen, MODULUS};
+    use crate::{n_out_of_n::sebbsplus::KeyGen,MODULUS};
 
     use super::*;
 

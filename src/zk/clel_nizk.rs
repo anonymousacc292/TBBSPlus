@@ -2,7 +2,9 @@ use bicycl::CL_HSMqk;
 use bls12_381::{G1Affine, G1Projective};
 use ff::PrimeField;
 
-use crate::wmc24::ElGCiphertext;
+// use crate::n_out_of_n::wmc24::ElGCiphertext;
+
+use crate::ElGCiphertext;
 
 use super::*;
 
