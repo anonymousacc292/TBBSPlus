@@ -8,20 +8,20 @@ use crate::ComZkDlComClproof;
 pub struct PVSS {
     pub A: BTreeMap<usize, Vec<QFI>>,
     pub a: BTreeMap<usize, Vec<Mpz>>,
-    pub ss: BTreeMap<usize, Vec<Mpz>>,
+    pub ss: BTreeMap<usize, BTreeMap<usize, Mpz>>,
 }
 
 impl PVSS {
     pub fn share(
         cl: &CL_HSMqk,
-        mut rng: &mut RandGen,
+        rng: &mut RandGen,
         chacharng: &mut ChaChaRng,
         cl_keys: &BTreeMap<usize, Mpz>,
         b: &Mpz,
         t: usize,
         n: usize,
         n_factorial: &Mpz,
-    ) {
+    ) -> Self{
         let mut msgs = BTreeMap::new();
         let mut A = BTreeMap::new();
         let mut ss = BTreeMap::new();
@@ -30,7 +30,7 @@ impl PVSS {
         for (i, item) in cl_keys.clone() {
             let mut coes = Vec::with_capacity(t);
             let mut As = Vec::with_capacity(t);
-            let mut sjs = BTreeMap::new();
+            let mut sjs: BTreeMap<usize, Mpz> = BTreeMap::new();
             let mut Asproofs = Vec::with_capacity(t);
             let s = item.clone();
             let mut tmp;
@@ -63,26 +63,23 @@ impl PVSS {
                 let Asproofs = msgs.get(&j).unwrap().clone();
                 let si = ss.get(&j).unwrap().clone().get(&i).unwrap().clone();
                 let zero = Mpz::from(0u64);
-                
+                let tmp_A0 = As[0].clone();
                 assert_eq!(true, Asproofs[0].verify(&cl, &As[0]));
                 As[0] = As[0].exp(&cl, &n_sq);
                 let mut pro = cl.power_of_h(&zero);
-                // let mut pro = As[t-1].clone();
-                // pro = pro.exp(&cl, &exp);
-                // assert_eq!(As[0], pro);
                 for k in (0..t).rev() {
                     if k != 0{
                         assert_eq!(true, Asproofs[k].verify(&cl, &As[k]));
                     }
                     pro = pro.exp(&cl, &exp).compose(&cl, &As[k]);
-                    // pro = pro.compose(&cl, &As[k]).exp(&cl, &exp);
                 }
-                // pro = As[0].exp(&cl, &n_sq).compose(&cl, &pro);
+                As[0] = tmp_A0;
                 let left_exp = si * n_factorial;
                 let left = cl.power_of_h(&left_exp);
                 assert_eq!(left, pro);
             }
         }
+        return PVSS { A, a, ss };
     }
 
     pub fn recover() {}
@@ -116,11 +113,12 @@ mod tests {
             &(Mpz::from_bytes(&(BigInt::from(1) << 40).to_bytes())),
             false,
         );
+        let n = 3;
         let mut n_factorial = Mpz::from(1u64);
-        for i in 1..=3 {
+        for i in 1..=n {
             n_factorial = Mpz::from(i as u64) * &n_factorial;
         }
-        let key_msg = KeyGen::keygen(&cl, 3, 3, &mut rng, &mut scalr_rng);
-        PVSS::share(&cl, &mut rng, &mut scalr_rng, &key_msg.cl_keys.sk_shares, &cl.encrypt_randomness_bound(), 3, 3, &n_factorial);
+        let key_msg = KeyGen::keygen(&cl, n, n, &mut rng, &mut scalr_rng);
+        PVSS::share(&cl, &mut rng, &mut scalr_rng, &key_msg.cl_keys.sk_shares, &cl.encrypt_randomness_bound(), n, n, &n_factorial);
     }
 }
