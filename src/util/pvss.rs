@@ -21,7 +21,7 @@ impl PVSS {
         t: usize,
         n: usize,
         n_factorial: &Mpz,
-    ) -> Self{
+    ) -> Self {
         let mut msgs = BTreeMap::new();
         let mut A = BTreeMap::new();
         let mut ss = BTreeMap::new();
@@ -68,7 +68,7 @@ impl PVSS {
                 As[0] = As[0].exp(&cl, &n_sq);
                 let mut pro = cl.power_of_h(&zero);
                 for k in (0..t).rev() {
-                    if k != 0{
+                    if k != 0 {
                         assert_eq!(true, Asproofs[k].verify(&cl, &As[k]));
                     }
                     pro = pro.exp(&cl, &exp).compose(&cl, &As[k]);
@@ -82,9 +82,43 @@ impl PVSS {
         return PVSS { A, a, ss };
     }
 
-    pub fn recover() {}
-}
+    pub fn recover(pv: &PVSS, t: usize, n: usize, n_factorial: &Mpz) -> BTreeMap<usize, Mpz> {
+        let mut dis = BTreeMap::new();
+        let lag_coes = Self::lagrange_coeffs_times_n_factorial(t, n, n_factorial);
+        for i in 1..=t {
+            let lagi = lag_coes.get(&i).unwrap().clone();
+            // lagi = lagi.clone() * n_factorial ;
+            let mut sum = Mpz::from(0u64);
+            for j in 1..=n {
+                let si = pv.ss.get(&j).unwrap().get(&i).unwrap().clone();
+                sum = sum + si * n_factorial;
+            }
+            let di = sum * lagi;
+            dis.insert(i, di);
+        }
+        dis
+    }
 
+    pub fn lagrange_coeffs_times_n_factorial(
+        t: usize,
+        n: usize,
+        n_factorial: &Mpz,
+    ) -> BTreeMap<usize, Mpz> {
+        let mut coeffs = BTreeMap::new();
+        for i in 1..=t {
+            let mut result = n_factorial.clone();
+            let i_mpz = Mpz::from(i as u64);
+            for j in 1..=t {
+                if i != j {
+                    let j_mpz = Mpz::from(j as u64);
+                    result = result * &j_mpz / (&j_mpz - &i_mpz);
+                }
+            }
+            coeffs.insert(i, result);
+        }
+        coeffs
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -114,12 +148,33 @@ mod tests {
             false,
         );
         let n = 5;
-        let t= 3;
+        let t = 3;
         let mut n_factorial = Mpz::from(1u64);
         for i in 1..=n {
             n_factorial = Mpz::from(i as u64) * &n_factorial;
         }
         let key_msg = KeyGen::keygen(&cl, n, n, &mut rng, &mut scalr_rng);
-        PVSS::share(&cl, &mut rng, &mut scalr_rng, &key_msg.cl_keys.sk_shares, &cl.encrypt_randomness_bound(), t, n, &n_factorial);
+        let pvssmsg = PVSS::share(
+            &cl,
+            &mut rng,
+            &mut scalr_rng,
+            &key_msg.cl_keys.sk_shares,
+            &cl.encrypt_randomness_bound(),
+            t,
+            n,
+            &n_factorial,
+        );
+        let mut left_sum = Mpz::from(0u64);
+        for (_, item) in key_msg.cl_keys.sk_shares {
+            left_sum = left_sum + item;
+        }
+        left_sum = left_sum * n_factorial.clone()* n_factorial.clone()* n_factorial.clone();
+        let dis = PVSS::recover(&pvssmsg, t, n, &n_factorial);
+        let mut right_sum = Mpz::from(0u64);
+        for (_, item) in dis {
+            right_sum = right_sum + item;
+        }
+
+        assert_eq!(left_sum, right_sum);
     }
 }
