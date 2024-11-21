@@ -113,12 +113,13 @@ mod tests {
             &(Mpz::from_bytes(&(BigInt::from(1) << 40).to_bytes())),
             false,
         );
-        let n = 3;
+        let n = 5;
+        let t= 3;
         let mut n_factorial = Mpz::from(1u64);
         for i in 1..=n {
             n_factorial = Mpz::from(i as u64) * &n_factorial;
         }
         let key_msg = KeyGen::keygen(&cl, n, n, &mut rng, &mut scalr_rng);
-        PVSS::share(&cl, &mut rng, &mut scalr_rng, &key_msg.cl_keys.sk_shares, &cl.encrypt_randomness_bound(), n, n, &n_factorial);
+        PVSS::share(&cl, &mut rng, &mut scalr_rng, &key_msg.cl_keys.sk_shares, &cl.encrypt_randomness_bound(), t, n, &n_factorial);
     }
 }
