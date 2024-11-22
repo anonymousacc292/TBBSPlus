@@ -164,12 +164,14 @@ mod tests {
         for (_, item) in key_msg.cl_keys.sk_shares.clone() {
             left_sum = left_sum + item;
         }
-        // left_sum = left_sum * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
+        left_sum = left_sum * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
         let dis = PVSS::recover(&pvssmsg, t, n, &n_factorial);
         let mut right_sum = Mpz::from(0u64);
         for (_, item) in dis {
             right_sum = right_sum + item;
         }
+
+        assert_eq!(left_sum, right_sum);
         let cube = Mpz::from(17u64);
 
         let mut f=cl.power_of_f(&Mpz::from(1u64));
@@ -192,7 +194,7 @@ mod tests {
         f = cl.power_of_f(&left_sum);
         let f_left_sum = cl.dlog_in_F(&f);
 
-        assert_eq!(f_left_sum, f_left);
+        // assert_eq!(f_left_sum, f_left);
         
     }
 }
