@@ -1,11 +1,7 @@
-use std::ops::Add;
 
 use bicycl::QFI;
 use ff::PrimeField;
-use rayon::iter::IntoParallelRefMutIterator;
-use tokio::time::Sleep;
-
-use crate::{CLELProof, CLEncSProof, CLPDProof, CLRandProof, ELPDProof, ElGCiphertext};
+use crate::{CLELProof, CLEncSProof, CLPDProof, ELPDProof, ElGCiphertext};
 
 use super::*;
 
@@ -86,7 +82,7 @@ impl Sign {
             let ciphertexts: Vec<_> = each_party_ciphertext
                 .iter()
                 .filter_map(
-                    |(j, e_i_ciphertext, s_i_ciphertext, proof_e_i, proof_s_i)| {
+                    |(_, e_i_ciphertext, s_i_ciphertext, proof_e_i, proof_s_i)| {
                         //if proof.verify(pp, &pp.pk, ki_ciphertext) && *j != i {
                         if proof_e_i.verify(&cl, &key_msg.cl_keys.pub_key, &e_i_ciphertext)
                             && proof_s_i.verify(&cl, &key_msg.cl_keys.pub_key, &s_i_ciphertext)
@@ -234,7 +230,7 @@ impl Sign {
             let ciphertexts: Vec<_> = msg
                 .iter()
                 .filter_map(
-                    |(j, gamma_i_e_x_ciphertext, e_x_ciphertext, eg_ciphertext, proof, B)| {
+                    |(_, gamma_i_e_x_ciphertext, e_x_ciphertext, eg_ciphertext, proof, B)| {
                         //if proof.verify(pp, &pp.pk, ki_ciphertext) && *j != i {
                         if proof.verify(
                             &cl,
