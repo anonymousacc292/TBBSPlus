@@ -93,13 +93,13 @@ impl KeyGen {
             &n_factorial,
         );
 
-        sk_shares = PVSS::recover(&pvssmsg, t, n, &n_factorial);
-        let left_sum = d * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
-        let mut right_sum = Mpz::from(0u64);
-        for (_, item) in sk_shares.clone() {
-            right_sum = right_sum + item;
-        }
-        assert_eq!(left_sum, right_sum);
+        (sk_shares, _) = PVSS::recover(&cl, &pvssmsg, t, n, &n_factorial);
+        // let left_sum = d * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
+        // let mut right_sum = Mpz::from(0u64);
+        // for (_, item) in sk_shares.clone() {
+        //     right_sum = right_sum + item;
+        // }
+        // assert_eq!(left_sum, right_sum);
         CLKeys {
             sk_shares,
             pub_key,

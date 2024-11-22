@@ -66,8 +66,9 @@ impl PVSSG {
         return PVSSG { A, a, ss };
     }
 
-    pub fn recover(pv: &PVSSG, t: usize, n: usize) -> BTreeMap<usize, Scalar> {
+    pub fn recover(pv: &PVSSG, t: usize, n: usize) -> (BTreeMap<usize, Scalar>, BTreeMap<usize, G1Projective>) {
         let mut dis = BTreeMap::new();
+        let mut update_pub_shares = BTreeMap::new();
         let lag_coes = Self::lagrange_coeffs(t);
         for i in 1..=t {
             let lagi = lag_coes.get(&i).unwrap().clone();
@@ -78,8 +79,9 @@ impl PVSSG {
             }
             let di = sum * lagi;
             dis.insert(i, di);
+            update_pub_shares.insert(i, di * G1Projective::generator());
         }
-        dis
+        (dis, update_pub_shares)
     }
 
     pub fn lagrange_coeffs(t: usize) -> BTreeMap<usize, Scalar> {
@@ -143,7 +145,7 @@ mod tests {
 
         let dis = PVSSG::recover(&pvssmsg, t, n);
         let mut right_sum = Scalar::from(0u64);
-        for (_, item) in dis {
+        for (_, item) in dis.0 {
             right_sum = right_sum + item;
         }
 

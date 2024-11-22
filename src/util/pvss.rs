@@ -82,8 +82,9 @@ impl PVSS {
         return PVSS { A, a, ss };
     }
 
-    pub fn recover(pv: &PVSS, t: usize, n: usize, n_factorial: &Mpz) -> BTreeMap<usize, Mpz> {
+    pub fn recover(cl: &CL_HSMqk, pv: &PVSS, t: usize, n: usize, n_factorial: &Mpz) -> (BTreeMap<usize, Mpz>, BTreeMap<usize, QFI>) {
         let mut dis = BTreeMap::new();
+        let mut update_pub_shares = BTreeMap::new();
         let lag_coes = Self::lagrange_coeffs_times_n_factorial(t, n_factorial);
         for i in 1..=t {
             let lagi = lag_coes.get(&i).unwrap().clone();
@@ -94,9 +95,10 @@ impl PVSS {
                 sum = sum + si * n_factorial;
             }
             let di = sum * lagi;
-            dis.insert(i, di);
+            dis.insert(i, di.clone());
+            update_pub_shares.insert(i, cl.power_of_h(&di));
         }
-        dis
+        (dis, update_pub_shares)
     }
 
     pub fn lagrange_coeffs_times_n_factorial(t: usize, n_factorial: &Mpz) -> BTreeMap<usize, Mpz> {
@@ -165,9 +167,9 @@ mod tests {
             left_sum = left_sum + item;
         }
         left_sum = left_sum * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
-        let dis = PVSS::recover(&pvssmsg, t, n, &n_factorial);
+        let dis = PVSS::recover(&cl, &pvssmsg, t, n, &n_factorial);
         let mut right_sum = Mpz::from(0u64);
-        for (_, item) in dis {
+        for (_, item) in dis.0 {
             right_sum = right_sum + item;
         }
 

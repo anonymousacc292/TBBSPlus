@@ -1,6 +1,6 @@
 use bicycl::QFI;
 
-use crate::ComZkDlComEgproof;
+use crate::{ComZkDlComEgproof, PVSS, PVSSG};
 
 use super::*;
 
@@ -40,6 +40,7 @@ impl KeyGen {
         chacharng: &mut ChaChaRng,
         cl: &CL_HSMqk,
         n: usize,
+        t: usize,
     ) -> CLKeys {
         // let mut rng = RandGen::new();
         let mut each_party_gen = Vec::with_capacity(n as usize);
@@ -88,6 +89,23 @@ impl KeyGen {
             }
         }
         let pub_key = PublicKey::from_qfi(&cl, &each_party_pubkey[0]);
+
+        let mut n_factorial = Mpz::from(1u64);
+        for i in 1..=n {
+            n_factorial = Mpz::from(i as u64) * &n_factorial;
+        }
+        let pvssmsg = PVSS::share(
+            &cl,
+            rng,
+            chacharng,
+            &sk_shares,
+            &cl.encrypt_randomness_bound(),
+            t,
+            n,
+            &n_factorial,
+        );
+
+        (sk_shares, pk_shares) = PVSS::recover(&cl,&pvssmsg, t, n, &n_factorial);
         CLKeys {
             sk_shares,
             pub_key,
@@ -192,7 +210,7 @@ impl KeyGen {
         }
     }
 
-    pub fn egkeygen(chacharng: &mut ChaChaRng, n: usize, _: usize) -> EgKeys {
+    pub fn egkeygen(chacharng: &mut ChaChaRng, n: usize, t: usize) -> EgKeys {
         let mut each_party_gen = Vec::with_capacity(n as usize);
         let mut pk_shares = Vec::with_capacity(n as usize);
         let mut sk_shares = BTreeMap::new();
@@ -242,6 +260,11 @@ impl KeyGen {
             }
         }
         let pub_key = each_party_pubkey[0].clone();
+
+        let pvssmsg = PVSSG::share(chacharng, &sk_shares, t, n);
+
+        (sk_shares, pub_shares) = PVSSG::recover(&pvssmsg, t, n);
+
         EgKeys {
             sk_shares,
             pub_shares,
@@ -253,13 +276,14 @@ impl KeyGen {
     pub fn keygen(
         cl: &CL_HSMqk,
         n: usize,
+        t: usize,
         l: usize,
         rng: &mut RandGen,
         chacharng: &mut ChaChaRng,
     ) -> Self {
-        let cl_keys = Self::clkeygen(rng, chacharng, cl, n);
+        let cl_keys = Self::clkeygen(rng, chacharng, cl, n, t);
         let sign_keys = Self::signkeygen(chacharng, n, l);
-        let eg_keys = Self::egkeygen(chacharng, n, l);
+        let eg_keys = Self::egkeygen(chacharng, n, t);
 
         let mut msgs = Vec::with_capacity(n as usize);
         let mut per_cipher = BTreeMap::new();
@@ -352,7 +376,9 @@ mod tests {
             &(Mpz::from_bytes(&(BigInt::from(1) << 40).to_bytes())),
             false,
         );
-
-        KeyGen::keygen(&cl, 5, 5, &mut rng, &mut scalr_rng);
+        let n = 5;
+        let t = 3;
+        KeyGen::keygen(&cl, n, t, 5, &mut rng, &mut scalr_rng);
+        
     }
 }

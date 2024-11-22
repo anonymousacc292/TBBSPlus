@@ -162,19 +162,13 @@ impl Sign {
 
             let e = cl.dlog_in_F(&ec.c2().compose(&cl, &pd_e.exp(&cl, &Mpz::from(-1i64))));
             let s = cl.dlog_in_F(&sc.c2().compose(&cl, &pd_s.exp(&cl, &Mpz::from(-1i64))));
-
-            // let tmp = e.to_bytes();
-            // let tmp_2: [u8; 64] = tmp.try_into().unwrap();
-            // let e_scalar = Scalar::from_bytes_wide(&tmp_2);
+;
             let mut e_bytes: [u8; 32] = e.to_bytes().try_into().unwrap();
             e_bytes.reverse();
             let e_scalar = Scalar::from_bytes(&e_bytes).unwrap();
 
             each_party_e.insert(i, e_scalar);
 
-            // let tmp = s.to_bytes();
-            // let tmp_2: [u8; 64] = tmp.try_into().unwrap();
-            // let s_scalar = Scalar::from_bytes_wide(&tmp_2);
             let mut s_bytes: [u8; 32] = s.to_bytes().try_into().unwrap();
             s_bytes.reverse();
             let s_scalar = Scalar::from_bytes(&s_bytes).unwrap();
@@ -476,6 +470,7 @@ mod tests {
             false,
         );
         let n = 5;
+        let t = 3;
         let l = 10;
         let mut msg: Vec<Scalar> = Vec::with_capacity(l);
 
@@ -483,8 +478,8 @@ mod tests {
             let tmp = Scalar::random(scalr_rng.clone());
             msg.push(tmp);
         }
-        let key_msg = KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
-        let sign_msg = Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
+        let key_msg = KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+        let sign_msg = Sign::sign(&cl, t, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
         Sign::client(&cl, &sign_msg);
     }
 }
