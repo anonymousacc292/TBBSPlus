@@ -32,12 +32,12 @@ debug = true
 criterion = { version = "0.4", features = ["html_reports"] }
 
 [[bench]]
-name = "n_out_f_n_sign"
+name = "n_out_of_n_sign"
 path = "benches/n_out_f_n_sign.rs"
 harness = false
 
 [[bench]]
-name = "n_out_f_n_keygen"
+name = "n_out_of_n_keygen"
 path = "benches/n_out_f_n_keygen.rs"
 harness = false
 
