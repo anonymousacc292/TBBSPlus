@@ -46,7 +46,9 @@ impl Sign {
             sis.push(Scalar::random(chacharng.clone()));
         }
 
-        for (i, item) in key_msg.each_party_x_ciphertexts.clone() {
+        // for (i, item) in key_msg.each_party_x_ciphertexts.clone() {
+        for i in 1..=n {
+            let item = key_msg.each_party_x_ciphertexts.get(&i).unwrap().clone();
             let e = eis
                 .clone()
                 .into_iter()
@@ -243,8 +245,8 @@ mod tests {
             &(Mpz::from_bytes(&(BigInt::from(1) << 40).to_bytes())),
             false,
         );
-        let n = 5;
-        let t = 5;
+        let n = 6;
+        let t = 4;
         let l = 10;
         let mut msg: Vec<Scalar> = Vec::with_capacity(l);
 
