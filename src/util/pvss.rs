@@ -183,16 +183,16 @@ mod tests {
             }
         }
         f = f.exp(&cl, &cube);
-        let mut f_left = cl.dlog_in_F(&f);
+        let f_left = cl.dlog_in_F(&f);
         let mut f_left_scalar = Scalar::from_str_vartime(&f_left.to_string()).unwrap();
         let mut f_cube = Scalar::from_str_vartime(&cube.to_string()).unwrap();
         f_cube = f_cube.invert().unwrap().clone();
         f_left_scalar = f_left_scalar * f_cube;
         // let f_left_scalar = Scalar::from_str_vartime(&f_left.to_string()).unwrap();
-        f_left = Mpz::from(&f_left_scalar);
+        _ = Mpz::from(&f_left_scalar);
 
         f = cl.power_of_f(&left_sum);
-        let f_left_sum = cl.dlog_in_F(&f);
+        let _ = cl.dlog_in_F(&f);
 
         // assert_eq!(f_left_sum, f_left);
         
