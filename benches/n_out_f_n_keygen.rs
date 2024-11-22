@@ -42,14 +42,14 @@ fn criterion_benchmark(c: &mut Criterion) {
 
     let n = 10;
     // SEBBS+
-    group.bench_function("Benchmarking 10 parties keygen phase of SEBBS+", |b| {
+    group.bench_function("Benchmarking 10 out of 10 parties keygen phase of SEBBS+", |b| {
         b.iter(|| {
             let _ = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
         })
     });
 
     // WMC24
-    group.bench_function("Benchmarking 10 parties keygen phase of WMC24", |b| {
+    group.bench_function("Benchmarking 10 out of 10 parties keygen phase of WMC24", |b| {
         b.iter(|| {
             let _ = n_out_of_n::wmc24::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
         })

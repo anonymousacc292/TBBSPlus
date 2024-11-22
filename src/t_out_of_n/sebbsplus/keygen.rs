@@ -225,8 +225,8 @@ impl KeyGen {
 
     pub fn keygen(
         cl: &CL_HSMqk,
-        t: usize,
         n: usize,
+        t: usize,
         l: usize,
         rng: &mut RandGen,
         chacharng: &mut ChaChaRng,
@@ -328,6 +328,6 @@ mod tests {
         let n = 5;
         let t = 3;
 
-        KeyGen::keygen(&cl, 3, 5, 5, &mut rng, &mut scalr_rng);
+        KeyGen::keygen(&cl, n, t, 5, &mut rng, &mut scalr_rng);
     }
 }

@@ -40,15 +40,15 @@ fn criterion_benchmark(c: &mut Criterion) {
         msg.push(tmp);
     }
 
-    let n = 2;
-    let t = 2;
+    let n = 11;
+    let t = 10;
 
-    let key_msg = t_out_of_n::sebbsplus::KeyGen::keygen(&cl, t, n, l, &mut rng, &mut scalr_rng);
-    group.bench_function("Benchmarking 2 out of 2 parties signing phase of SEBBS+", |b| {
+    let key_msg = t_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+    group.bench_function("Benchmarking 10 out of 11 parties signing phase of SEBBS+", |b| {
         b.iter(|| {
             let _ = t_out_of_n::sebbsplus::Sign::sign(
                 &cl,
-                n,
+                t,
                 l,
                 &mut rng,
                 &mut scalr_rng,
@@ -59,11 +59,11 @@ fn criterion_benchmark(c: &mut Criterion) {
         })
     });
 
-    let key_msg = t_out_of_n::wmc24::KeyGen::keygen(&cl, t, n, l, &mut rng, &mut scalr_rng);
-    group.bench_function("Benchmarking 2 out of 2 parties signing phase of WMC24", |b| {
+    let key_msg = t_out_of_n::wmc24::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+    group.bench_function("Benchmarking 10 out of 11 parties signing phase of WMC24", |b| {
         b.iter(|| {
             let _ =
-            t_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
+            t_out_of_n::wmc24::Sign::sign(&cl, t, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
         })
     });
 
