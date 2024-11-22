@@ -1,4 +1,4 @@
-use crate::{ComZkDlComClproof, PVSS};
+use crate::{ComZkDlComClproof, ZeroShare, PVSS};
 
 use super::*;
 
@@ -13,6 +13,7 @@ pub struct CLKeys {
     pub sk_shares: BTreeMap<usize, Mpz>,
     pub pub_key: PublicKey,
     pub n_factorial: Mpz,
+    pub zero_shares: BTreeMap<usize, Mpz>,
 }
 #[derive(Clone)]
 pub struct SignKeys {
@@ -94,16 +95,27 @@ impl KeyGen {
         );
 
         (sk_shares, _) = PVSS::recover(&cl, &pvssmsg, t, n, &n_factorial);
+
+        let zero_shares = ZeroShare::share(&cl, rng, t, n);
         // let left_sum = d * n_factorial.clone() * n_factorial.clone() * n_factorial.clone();
         // let mut right_sum = Mpz::from(0u64);
         // for (_, item) in sk_shares.clone() {
         //     right_sum = right_sum + item;
         // }
         // assert_eq!(left_sum, right_sum);
+
+        let mut update_serect_keys = BTreeMap::new();
+
+        for i in 1..=t {
+            let mut sk = sk_shares.get(&i).unwrap().clone();
+            sk = sk + zero_shares.beta_t_is.get(&i).unwrap().clone();
+            update_serect_keys.insert(i, sk);
+        }
         CLKeys {
-            sk_shares,
+            sk_shares: update_serect_keys,
             pub_key,
             n_factorial,
+            zero_shares: zero_shares.beta_t_is,
         }
     }
 
