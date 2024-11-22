@@ -5,6 +5,9 @@ use sha2::{Digest, Sha256};
 pub mod pvss;
 pub use pvss::*;
 
+pub mod pvss_g;
+pub use pvss_g::*;
+
 pub mod zero_shares;
 pub use zero_shares::*;
 
