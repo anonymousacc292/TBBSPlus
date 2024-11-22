@@ -32,5 +32,22 @@ debug = true
 criterion = { version = "0.4", features = ["html_reports"] }
 
 [[bench]]
-name = "bench"
+name = "n_party_keygen"
+path = "benches/n_party_keygen.rs"
 harness = false
+
+[[bench]]
+name = "n_party_sign"
+path = "benches/n_party_sign.rs"
+harness = false
+
+[[bench]]
+name = "t_out_of_n_keygen"
+path = "benches/t_out_of_n_keygen.rs"
+harness = false
+
+[[bench]]
+name = "t_out_of_n_sign"
+path = "benches/t_out_of_n_sign.rs"
+harness = false
+

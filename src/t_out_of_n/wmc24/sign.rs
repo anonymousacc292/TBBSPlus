@@ -162,16 +162,12 @@ impl Sign {
 
             let e = cl.dlog_in_F(&ec.c2().compose(&cl, &pd_e.exp(&cl, &Mpz::from(-1i64))));
             let s = cl.dlog_in_F(&sc.c2().compose(&cl, &pd_s.exp(&cl, &Mpz::from(-1i64))));
-;
-            let mut e_bytes: [u8; 32] = e.to_bytes().try_into().unwrap();
-            e_bytes.reverse();
-            let e_scalar = Scalar::from_bytes(&e_bytes).unwrap();
+
+            let e_scalar = Scalar::from_str_vartime(&e.to_string()).unwrap();
 
             each_party_e.insert(i, e_scalar);
 
-            let mut s_bytes: [u8; 32] = s.to_bytes().try_into().unwrap();
-            s_bytes.reverse();
-            let s_scalar = Scalar::from_bytes(&s_bytes).unwrap();
+            let s_scalar = Scalar::from_str_vartime(&s.to_string()).unwrap();
 
             each_party_s.insert(i, s_scalar);
         }
