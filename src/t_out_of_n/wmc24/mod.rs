@@ -3,7 +3,7 @@ use bicycl::CipherText;
 use bicycl::Mpz;
 use bicycl::PublicKey;
 use bicycl::RandGen;
-use bls12_381::{G1Affine, G1Projective, G2Projective, Scalar};
+use bls12_381::{G1Projective, G2Projective, Scalar};
 use ff::Field;
 use rand_chacha::ChaChaRng;
 use std::collections::BTreeMap;
