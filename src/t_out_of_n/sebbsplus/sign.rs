@@ -250,7 +250,7 @@ mod tests {
         let l = 10;
         let mut msg: Vec<Scalar> = Vec::with_capacity(l);
 
-        for i in 0..l {
+        for _ in 0..l {
             let tmp = Scalar::random(scalr_rng.clone());
             msg.push(tmp);
         }
