@@ -1,10 +1,8 @@
 use std::collections::BTreeMap;
-
-use bicycl::{CL_HSMqk, Mpz, RandGen, QFI};
 use ff::Field;
 use rand_chacha::ChaChaRng;
 use bls12_381::{G1Projective, Scalar};
-use crate::{ComZkDlComClproof, ComZkDlComEgproof};
+use crate::ComZkDlComEgproof;
 
 pub struct PVSSG {
     pub A: BTreeMap<usize, Vec<G1Projective>>,
