@@ -43,7 +43,7 @@ fn criterion_benchmark(c: &mut Criterion) {
     let n = 10;
 
     let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
-    group.bench_function("Benchmarking 10 out of 10 parties signing phase of SEBBS+", |b| {
+    group.bench_function("Benchmarking 10 out of 10 parties signing phase of SET-BBS+", |b| {
         b.iter(|| {
             let _ = n_out_of_n::sebbsplus::Sign::sign(
                 &cl,
@@ -69,7 +69,7 @@ fn criterion_benchmark(c: &mut Criterion) {
     // let n = 20;
 
     // let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
-    // group.bench_function("Benchmarking 20 parties signing phase of SEBBS+", |b| {
+    // group.bench_function("Benchmarking 20 parties signing phase of SET-BBS+", |b| {
     //     b.iter(|| {
     //         let _ = n_out_of_n::sebbsplus::Sign::sign(
     //             &cl,

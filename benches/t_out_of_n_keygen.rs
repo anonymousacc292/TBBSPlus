@@ -42,8 +42,8 @@ fn criterion_benchmark(c: &mut Criterion) {
 
     let n = 11;
     let t = 10;
-    // SEBBS+
-    group.bench_function("Benchmarking 10 out of 11 parties keygen phase of SEBBS+", |b| {
+    // SET-BBS+
+    group.bench_function("Benchmarking 10 out of 11 parties keygen phase of SET-BBS+", |b| {
         b.iter(|| {
             let _ = t_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
         })
@@ -58,8 +58,8 @@ fn criterion_benchmark(c: &mut Criterion) {
 
     // let n = 20;
     // let t = 20;
-    // // SEBBS+
-    // group.bench_function("Benchmarking 20 out of 20 parties keygen phase of SEBBS+", |b| {
+    // // SET-BBS+
+    // group.bench_function("Benchmarking 20 out of 20 parties keygen phase of SET-BBS+", |b| {
     //     b.iter(|| {
     //         let _ = t_out_of_n::sebbsplus::KeyGen::keygen(&cl, t, n, l, &mut rng, &mut scalr_rng);
     //     })
