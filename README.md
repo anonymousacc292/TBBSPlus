@@ -2,25 +2,29 @@
 This repository provides the artifacts regarding our submission #1286, including the following,
 
 **Implementation** 
-We provide implementations of our scheme, SET-BBS+, and the state-of-the-art WMC24 for both n-out-of-n and t-out-of-n scenarios. Additionally, we have modified the open-source code of DKL+23 to support these scenarios as well. 
+We provide implementations of our scheme, SET-BBS+, and the state-of-the-art [WMC24](https://www.ndss-symposium.org/ndss-paper/secure-multiparty-computation-of-threshold-signatures-made-more-efficient/) for both n-out-of-n and t-out-of-n scenarios. Additionally, we have modified the open-source code of [DKL+23](https://eprint.iacr.org/2023/602) to support these scenarios as well. 
 
- **Reproduction of Our Experiment Results** 
+**Reproduction of Our Experiment Results** 
 We provide the two methods for reproducing the performance comparison between our work and the state-of-the-art are provided in Tables 3 and 4 of our original submission. Two methods include the following:
 * Using Docker to reproduce our results in few minutes without installing prerequisites.
-* Configuring and deploying our code on Ubuntu and m- [Threshold BBS+]
+* Configuring and deploying our code on Ubuntu and macOS
+
+**Note** To quickly validate our results, we set the default number of parties to 10-out-of-10 for the n-out-of-n scenario in our benchmarks. Additionally, to demonstrate that our signing protocol performs equally well in the t-out-of-n scenario, we set the default to 10-out-of-15, ensuring the number of signing parties remains the same as in the n-out-of-n scenario. We also provide detailed instructions below for updating the number of parties in our benchmarks.
   
 ## Table of Contents
-
-
-- [Implementation](#implementation)
-- [Instructions for Reproduction](#instructions-for-reproduction)
-  - [Depolyment via Docker](#depolyment-via-docker)
-  - [Depolyment via Source Code](#depolyment-via-source-code)
-    - [On Ubuntu 24.04.1](#on-ubuntu-24041)
-    - [On macOS Sonoma 14.0](#on-macos-sonoma-140)
-  - [Commands of Running Experiments](#commands-of-running-experiments)
-    - [N-OUT-OF-N](#n-out-of-n)
-    - [T-OUT-OF-N](#t-out-of-n)
+- [Threshold BBS+](#threshold-bbs)
+  - [Table of Contents](#table-of-contents)
+  - [Implementation](#implementation)
+  - [Instructions for Reproduction](#instructions-for-reproduction)
+    - [Depolyment via Docker](#depolyment-via-docker)
+    - [Depolyment via Source Code](#depolyment-via-source-code)
+      - [On Ubuntu 24.04.1](#on-ubuntu-24041)
+      - [On macOS Sonoma 14.0](#on-macos-sonoma-140)
+    - [Commands of Running Experiments](#commands-of-running-experiments)
+      - [N-OUT-OF-N](#n-out-of-n)
+      - [T-OUT-OF-N](#t-out-of-n)
+  - [Instructions for Updating Number of Parties](#instructions-for-updating-number-of-parties)
+  - [Discussion on Experiment Results](#discussion-on-experiment-results)
 
 
 ## Implementation
@@ -121,3 +125,14 @@ The detailed commands for running the experiments are as follows:
     cd crypto
     RUSTFLAGS="-Awarnings" cargo test --release --package bbs_plus --lib -- threshold::threshold_bbs_plus::tests::signing_t_out_of_n --exact --show-output 
     ```
+## Instructions for Updating Number of Parties
+Our benchmarks in the `benches` folder of our repository.
+* For n-out-of-n, modify the benchmark file by changing 'let n = 10;' to 'let n = [any other number];'.
+* For t-out-of-n, modify the benchmark file by changing 'let n = 15; let t = 10;' to 'let n = [any other number]; let t = [any other number];'.
+
+##  Discussion on Experiment Results
+* Performance may vary across different hardware, but our protocol consistently achieves similar efficiency improvements compared to other works.
+
+* If the number of parties is the same in both n-out-of-n and t-out-of-n scenarios, the performance of our signing protocol remain similar in both situations.
+
+* In our benchmarks, we present the computational cost of our protocol and the state-of-the-art, while omitting the communication cost. The communication cost can be directly calculated according to Section 5.1, Theoretical Complexity, in our original submission.
