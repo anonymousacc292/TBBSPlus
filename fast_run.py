@@ -14,11 +14,11 @@ RUSTFLAGS="-Awarnings" cargo test --release --package bbs_plus --lib -- threshol
 print(run)
 subprocess.call(["bash", "-c", run])
 
-run = '''
-RUSTFLAGS="-Awarnings" cargo bench --bench comp_client
-'''
-print(run)
-subprocess.call(["bash", "-c", run])
+# run = '''
+# RUSTFLAGS="-Awarnings" cargo bench --bench comp_client
+# '''
+# print(run)
+# subprocess.call(["bash", "-c", run])
 
 
 

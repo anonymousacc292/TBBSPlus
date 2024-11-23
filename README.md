@@ -64,3 +64,18 @@ Steps 2, 3, and 4 are identical to the above.
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     ```
 ### Instructions for Running Experiments
+A quick method to evaluate the performance of the signing phase for SET-BBS+, the state-of-the-art WMC24, and DKL+23 in both n-out-of-n and t-out-of-n scenarios.
+
+```sh
+    cd ${repo_path}
+    python3 fast_run.py
+```
+The detailed commands for running the experiments are as follows:
+* n-out-of-n signning of SET-BBS+ and WMC24
+    ```sh
+    RUSTFLAGS="-Awarnings" cargo bench --bench n_out_of_n_sign
+    ```
+* t-out-of-n signning of SET-BBS+ and WMC24
+    ```sh
+    RUSTFLAGS="-Awarnings" cargo bench --bench t_out_of_n_sign
+    ```
