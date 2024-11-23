@@ -7,7 +7,22 @@ We provide implementations of our scheme, SET-BBS+, and the state-of-the-art WMC
  **Reproduction of Our Experiment Results** 
 We provide the two methods for reproducing the performance comparison between our work and the state-of-the-art are provided in Tables 3 and 4 of our original submission. Two methods include the following:
 * Using Docker to reproduce our results in few minutes without installing prerequisites.
-* Configuring and deploying our code on Ubuntu and macOS.
+* Configuring and deploying our code on Ubuntu and m- [Threshold BBS+]
+  
+## Table of Contents
+
+- [Threshold BBS+](#threshold-bbs)
+  - [Table of Contents](#table-of-contents)
+  - [Implementation](#implementation)
+  - [Instructions for Reproduction](#instructions-for-reproduction)
+    - [Depolyment via Docker](#depolyment-via-docker)
+    - [Depolyment via Source Code](#depolyment-via-source-code)
+      - [On Ubuntu 24.04.1](#on-ubuntu-24041)
+      - [On macOS Sonoma 14.0](#on-macos-sonoma-140)
+    - [Commands of Running Experiments](#commands-of-running-experiments)
+      - [N-OUT-OF-N](#n-out-of-n)
+      - [T-OUT-OF-N](#t-out-of-n)
+
 
 ## Implementation
 The code for the main protocols is located as follows:
@@ -63,7 +78,7 @@ Steps 2, 3, and 4 are identical to the above.
         brew install git curl llvm gmp openssl python
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     ```
-### Instructions for Running Experiments
+### Commands of Running Experiments
 A quick method to evaluate the performance of the signing phase for SET-BBS+, the state-of-the-art WMC24, and DKL+23 in both n-out-of-n and t-out-of-n scenarios.
 
 ```sh
