@@ -11,17 +11,16 @@ We provide the two methods for reproducing the performance comparison between ou
   
 ## Table of Contents
 
-- [Threshold BBS+](#threshold-bbs)
-  - [Table of Contents](#table-of-contents)
-  - [Implementation](#implementation)
-  - [Instructions for Reproduction](#instructions-for-reproduction)
-    - [Depolyment via Docker](#depolyment-via-docker)
-    - [Depolyment via Source Code](#depolyment-via-source-code)
-      - [On Ubuntu 24.04.1](#on-ubuntu-24041)
-      - [On macOS Sonoma 14.0](#on-macos-sonoma-140)
-    - [Commands of Running Experiments](#commands-of-running-experiments)
-      - [N-OUT-OF-N](#n-out-of-n)
-      - [T-OUT-OF-N](#t-out-of-n)
+
+- [Implementation](#implementation)
+- [Instructions for Reproduction](#instructions-for-reproduction)
+  - [Depolyment via Docker](#depolyment-via-docker)
+  - [Depolyment via Source Code](#depolyment-via-source-code)
+    - [On Ubuntu 24.04.1](#on-ubuntu-24041)
+    - [On macOS Sonoma 14.0](#on-macos-sonoma-140)
+  - [Commands of Running Experiments](#commands-of-running-experiments)
+    - [N-OUT-OF-N](#n-out-of-n)
+    - [T-OUT-OF-N](#t-out-of-n)
 
 
 ## Implementation
