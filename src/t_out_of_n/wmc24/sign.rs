@@ -1,7 +1,6 @@
-
+use crate::{CLELProof, CLEncSProof, CLPDProof, ELPDProof, ElGCiphertext};
 use bicycl::QFI;
 use ff::PrimeField;
-use crate::{CLELProof, CLEncSProof, CLPDProof, ELPDProof, ElGCiphertext};
 
 use super::*;
 

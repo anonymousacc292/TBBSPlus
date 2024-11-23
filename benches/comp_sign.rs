@@ -79,6 +79,46 @@ fn criterion_benchmark(c: &mut Criterion) {
         },
     );
 
+    let n = 15;
+    let t = 10;
+
+    let key_msg = t_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+    group.bench_function(
+        "Benchmarking 10 out of 15 parties signing phase of SET-BBS+",
+        |b| {
+            b.iter(|| {
+                let _ = t_out_of_n::setbbsplus::Sign::sign(
+                    &cl,
+                    t,
+                    l,
+                    &mut rng,
+                    &mut scalr_rng,
+                    &key_msg,
+                    &msg,
+                    &q,
+                );
+            })
+        },
+    );
+
+    let key_msg = t_out_of_n::wmc24::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+    group.bench_function(
+        "Benchmarking 10 out of 15 parties signing phase of WMC24",
+        |b| {
+            b.iter(|| {
+                let _ = t_out_of_n::wmc24::Sign::sign(
+                    &cl,
+                    t,
+                    l,
+                    &mut rng,
+                    &mut scalr_rng,
+                    &key_msg,
+                    &msg,
+                );
+            })
+        },
+    );
+
     // let n = 20;
 
     // let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);

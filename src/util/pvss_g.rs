@@ -1,8 +1,8 @@
-use std::collections::BTreeMap;
+use crate::ComZkDlComEgproof;
+use bls12_381::{G1Projective, Scalar};
 use ff::Field;
 use rand_chacha::ChaChaRng;
-use bls12_381::{G1Projective, Scalar};
-use crate::ComZkDlComEgproof;
+use std::collections::BTreeMap;
 
 pub struct PVSSG {
     pub A: BTreeMap<usize, Vec<G1Projective>>,
@@ -29,11 +29,19 @@ impl PVSSG {
             let s = item.clone();
             coes.push(s);
             As.push(s * G1Projective::generator());
-            Asproofs.push(ComZkDlComEgproof::prove(&mut chacharng.clone(), &As[0].into(), &coes[0]));
+            Asproofs.push(ComZkDlComEgproof::prove(
+                &mut chacharng.clone(),
+                &As[0].into(),
+                &coes[0],
+            ));
             for j in 1..=(t - 1) {
                 coes.push(Scalar::random(chacharng.clone()));
                 As.push(coes[j] * G1Projective::generator());
-                Asproofs.push(ComZkDlComEgproof::prove(&mut chacharng.clone(), &As[j].into(), &coes[j]));
+                Asproofs.push(ComZkDlComEgproof::prove(
+                    &mut chacharng.clone(),
+                    &As[j].into(),
+                    &coes[j],
+                ));
             }
             for j in 1..=n {
                 let mut sj = Scalar::from(0u64);
@@ -66,7 +74,11 @@ impl PVSSG {
         return PVSSG { A, a, ss };
     }
 
-    pub fn recover(pv: &PVSSG, t: usize, n: usize) -> (BTreeMap<usize, Scalar>, BTreeMap<usize, G1Projective>) {
+    pub fn recover(
+        pv: &PVSSG,
+        t: usize,
+        n: usize,
+    ) -> (BTreeMap<usize, Scalar>, BTreeMap<usize, G1Projective>) {
         let mut dis = BTreeMap::new();
         let mut update_pub_shares = BTreeMap::new();
         let lag_coes = Self::lagrange_coeffs(t);
@@ -115,7 +127,6 @@ mod tests {
 
     use super::PVSSG;
 
-
     #[test]
     fn test_pvss() {
         let seed: [u8; 32] = [0u8; 32];
@@ -135,7 +146,7 @@ mod tests {
         let n = 5;
         let t = 3;
         let key_msg = KeyGen::keygen(&cl, n, t, 5, &mut rng, &mut scalr_rng);
-        
+
         let pvssmsg = PVSSG::share(&mut scalr_rng, &key_msg.eg_keys.sk_shares, t, n);
 
         let mut left_sum = Scalar::from(0u64);

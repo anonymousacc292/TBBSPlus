@@ -7,14 +7,14 @@ use curv::BigInt;
 use ff::Field;
 use rand::SeedableRng;
 use rand_chacha::ChaChaRng;
-use threshold_bbsp::*;
 use threshold_bbsp::MODULUS;
+use threshold_bbsp::*;
 
 fn criterion_benchmark(c: &mut Criterion) {
     let mut group = c.benchmark_group("Threshold BBS+");
     group
         .sample_size(10)
-        .sampling_mode(criterion::SamplingMode::Auto); 
+        .sampling_mode(criterion::SamplingMode::Auto);
 
     let seed: [u8; 32] = [0u8; 32];
     let mut scalr_rng = ChaChaRng::from_seed(seed);
@@ -40,32 +40,45 @@ fn criterion_benchmark(c: &mut Criterion) {
         msg.push(tmp);
     }
 
-    let n = 11;
+    let n = 15;
     let t = 10;
 
     let key_msg = t_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
-    group.bench_function("Benchmarking 10 out of 11 parties signing phase of SET-BBS+", |b| {
-        b.iter(|| {
-            let _ = t_out_of_n::setbbsplus::Sign::sign(
-                &cl,
-                t,
-                l,
-                &mut rng,
-                &mut scalr_rng,
-                &key_msg,
-                &msg,
-                &q,
-            );
-        })
-    });
+    group.bench_function(
+        "Benchmarking 10 out of 15 parties signing phase of SET-BBS+",
+        |b| {
+            b.iter(|| {
+                let _ = t_out_of_n::setbbsplus::Sign::sign(
+                    &cl,
+                    t,
+                    l,
+                    &mut rng,
+                    &mut scalr_rng,
+                    &key_msg,
+                    &msg,
+                    &q,
+                );
+            })
+        },
+    );
 
     let key_msg = t_out_of_n::wmc24::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
-    group.bench_function("Benchmarking 10 out of 11 parties signing phase of WMC24", |b| {
-        b.iter(|| {
-            let _ =
-            t_out_of_n::wmc24::Sign::sign(&cl, t, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
-        })
-    });
+    group.bench_function(
+        "Benchmarking 10 out of 15 parties signing phase of WMC24",
+        |b| {
+            b.iter(|| {
+                let _ = t_out_of_n::wmc24::Sign::sign(
+                    &cl,
+                    t,
+                    l,
+                    &mut rng,
+                    &mut scalr_rng,
+                    &key_msg,
+                    &msg,
+                );
+            })
+        },
+    );
 
     // let n = 20;
     // let t = 20;
@@ -93,7 +106,6 @@ fn criterion_benchmark(c: &mut Criterion) {
     //         t_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
     //     })
     // });
-
 }
 
 criterion_group!(benches, criterion_benchmark);

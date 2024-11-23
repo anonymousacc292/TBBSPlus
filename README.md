@@ -47,7 +47,7 @@ The code for the main protocols is located as follows:
    ```
 3. Compile the `prime` submodule
     ```sh
-        cd ${repo_path}prime/src/lib
+        cd ${repo_path}/prime/src/lib
         bash prime.sh
     ```
 4. Compile the repository

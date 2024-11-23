@@ -51,5 +51,14 @@ name = "t_out_of_n_keygen"
 path = "benches/t_out_of_n_keygen.rs"
 harness = false
 
+[[bench]]
+name = "comp_sign"
+path = "benches/comp_sign.rs"
+harness = false
+
+[[bench]]
+name = "comp_client"
+path = "benches/comp_client.rs"
+harness = false
 
 

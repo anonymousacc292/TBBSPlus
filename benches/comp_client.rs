@@ -43,38 +43,52 @@ fn criterion_benchmark(c: &mut Criterion) {
     let n = 10;
 
     let key_msg = n_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
+    let sign_msg =
+        n_out_of_n::setbbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
     group.bench_function(
-        "Benchmarking 10 out of 10 parties signing phase of SET-BBS+",
+        "Benchmarking client-side of 10 out of 10 parties SET-BBS+",
         |b| {
             b.iter(|| {
-                let _ = n_out_of_n::setbbsplus::Sign::sign(
-                    &cl,
-                    n,
-                    l,
-                    &mut rng,
-                    &mut scalr_rng,
-                    &key_msg,
-                    &msg,
-                    &q,
-                );
+                n_out_of_n::setbbsplus::Sign::client(&cl, &sign_msg, &msg, l);
             })
         },
     );
 
     let key_msg = n_out_of_n::wmc24::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
+    let sign_msg =
+        n_out_of_n::wmc24::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
     group.bench_function(
-        "Benchmarking 10 out of 10 parties signing phase of WMC24",
+        "Benchmarking client-side of 10 out of 10 parties WMC24",
         |b| {
             b.iter(|| {
-                let _ = n_out_of_n::wmc24::Sign::sign(
-                    &cl,
-                    n,
-                    l,
-                    &mut rng,
-                    &mut scalr_rng,
-                    &key_msg,
-                    &msg,
-                );
+                n_out_of_n::wmc24::Sign::client(&cl, &sign_msg);
+            })
+        },
+    );
+
+    let n = 15;
+    let t = 10;
+
+    let key_msg = t_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+    let sign_msg =
+        t_out_of_n::setbbsplus::Sign::sign(&cl, t, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
+    group.bench_function(
+        "Benchmarking client-side of 10 out of 15 parties SET-BBS+",
+        |b| {
+            b.iter(|| {
+                t_out_of_n::setbbsplus::Sign::client(&cl, &sign_msg, &msg, l);
+            })
+        },
+    );
+
+    let key_msg = t_out_of_n::wmc24::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+    let sign_msg =
+        t_out_of_n::wmc24::Sign::sign(&cl, t, l, &mut rng, &mut scalr_rng, &key_msg, &msg);
+    group.bench_function(
+        "Benchmarking client-side of 10 out of 15 parties WMC24",
+        |b| {
+            b.iter(|| {
+                t_out_of_n::wmc24::Sign::client(&cl, &sign_msg);
             })
         },
     );

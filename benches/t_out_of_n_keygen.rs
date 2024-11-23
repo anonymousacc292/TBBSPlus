@@ -7,8 +7,8 @@ use curv::BigInt;
 use ff::Field;
 use rand::SeedableRng;
 use rand_chacha::ChaChaRng;
-use threshold_bbsp::*;
 use threshold_bbsp::MODULUS;
+use threshold_bbsp::*;
 
 fn criterion_benchmark(c: &mut Criterion) {
     let mut group = c.benchmark_group("Threshold BBS+");
@@ -40,21 +40,28 @@ fn criterion_benchmark(c: &mut Criterion) {
         msg.push(tmp);
     }
 
-    let n = 11;
+    let n = 15;
     let t = 10;
     // SET-BBS+
-    group.bench_function("Benchmarking 10 out of 11 parties keygen phase of SET-BBS+", |b| {
-        b.iter(|| {
-            let _ = t_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
-        })
-    });
+    group.bench_function(
+        "Benchmarking 10 out of 15 parties keygen phase of SET-BBS+",
+        |b| {
+            b.iter(|| {
+                let _ =
+                    t_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+            })
+        },
+    );
 
     // WMC24
-    group.bench_function("Benchmarking 10 out of 11 parties keygen phase of WMC24", |b| {
-        b.iter(|| {
-            let _ = t_out_of_n::wmc24::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
-        })
-    });
+    group.bench_function(
+        "Benchmarking 10 out of 15 parties keygen phase of WMC24",
+        |b| {
+            b.iter(|| {
+                let _ = t_out_of_n::wmc24::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+            })
+        },
+    );
 
     // let n = 20;
     // let t = 20;
@@ -71,7 +78,6 @@ fn criterion_benchmark(c: &mut Criterion) {
     //         let _ = t_out_of_n::wmc24::KeyGen::keygen(&cl, t, n, l, &mut rng, &mut scalr_rng);
     //     })
     // });
-
 }
 
 criterion_group!(benches, criterion_benchmark);

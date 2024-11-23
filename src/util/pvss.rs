@@ -82,7 +82,13 @@ impl PVSS {
         return PVSS { A, a, ss };
     }
 
-    pub fn recover(cl: &CL_HSMqk, pv: &PVSS, t: usize, n: usize, n_factorial: &Mpz) -> (BTreeMap<usize, Mpz>, BTreeMap<usize, QFI>) {
+    pub fn recover(
+        cl: &CL_HSMqk,
+        pv: &PVSS,
+        t: usize,
+        n: usize,
+        n_factorial: &Mpz,
+    ) -> (BTreeMap<usize, Mpz>, BTreeMap<usize, QFI>) {
         let mut dis = BTreeMap::new();
         let mut update_pub_shares = BTreeMap::new();
         let lag_coes = Self::lagrange_coeffs_times_n_factorial(t, n_factorial);
@@ -125,7 +131,7 @@ mod tests {
     use ff::{Field, PrimeField};
     use rand::SeedableRng;
 
-    use crate::{n_out_of_n::setbbsplus::KeyGen,MODULUS};
+    use crate::{n_out_of_n::setbbsplus::KeyGen, MODULUS};
 
     use super::*;
 
@@ -176,11 +182,11 @@ mod tests {
         assert_eq!(left_sum, right_sum);
         let cube = Mpz::from(17u64);
 
-        let mut f=cl.power_of_f(&Mpz::from(1u64));
+        let mut f = cl.power_of_f(&Mpz::from(1u64));
         for (i, item) in key_msg.cl_keys.sk_shares {
-            if i == 1{
+            if i == 1 {
                 f = cl.power_of_f(&item);
-            }else {
+            } else {
                 f = f.compose(&cl, &cl.power_of_f(&item));
             }
         }
@@ -197,6 +203,5 @@ mod tests {
         let _ = cl.dlog_in_F(&f);
 
         // assert_eq!(f_left_sum, f_left);
-        
     }
 }

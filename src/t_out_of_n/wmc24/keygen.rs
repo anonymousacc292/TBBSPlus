@@ -105,7 +105,7 @@ impl KeyGen {
             &n_factorial,
         );
 
-        (sk_shares, pk_shares) = PVSS::recover(&cl,&pvssmsg, t, n, &n_factorial);
+        (sk_shares, pk_shares) = PVSS::recover(&cl, &pvssmsg, t, n, &n_factorial);
         CLKeys {
             sk_shares,
             pub_key,
@@ -379,6 +379,5 @@ mod tests {
         let n = 5;
         let t = 3;
         KeyGen::keygen(&cl, n, t, 5, &mut rng, &mut scalr_rng);
-        
     }
 }
