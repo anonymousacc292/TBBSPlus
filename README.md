@@ -71,11 +71,39 @@ A quick method to evaluate the performance of the signing phase for SET-BBS+, th
     python3 fast_run.py
 ```
 The detailed commands for running the experiments are as follows:
-* n-out-of-n signning of SET-BBS+ and WMC24
+#### N-OUT-OF-N
+*  The signing phase of SET-BBS+ and WMC24
     ```sh
     RUSTFLAGS="-Awarnings" cargo bench --bench n_out_of_n_sign
     ```
-* t-out-of-n signning of SET-BBS+ and WMC24
+*  The key generation phase of SET-BBS+ and WMC24
+    ```sh
+    RUSTFLAGS="-Awarnings" cargo bench --bench n_out_of_n_keygen
+    ```
+*  The client phase of SET-BBS+ and WMC24
+    ```sh
+    RUSTFLAGS="-Awarnings" cargo bench --bench n_out_of_n_client
+    ```
+*  The signing, key generation phase and client phase of of DKL+23
+    ```sh
+    cd crypto
+    RUSTFLAGS="-Awarnings" cargo test --release --package bbs_plus --lib -- threshold::threshold_bbs_plus::tests::signing_n_out_of_n --exact --show-output 
+    ```
+#### T-OUT-OF-N
+*  The signing phase of SET-BBS+ and WMC24
     ```sh
     RUSTFLAGS="-Awarnings" cargo bench --bench t_out_of_n_sign
+    ```
+*  The key generation phase of SET-BBS+ and WMC24
+    ```sh
+    RUSTFLAGS="-Awarnings" cargo bench --bench t_out_of_n_keygen
+    ```
+*  The client phase of SET-BBS+ and WMC24
+    ```sh
+    RUSTFLAGS="-Awarnings" cargo bench --bench t_out_of_n_client
+    ```
+*  The signing, key generation phase and client phase of of DKL+23
+    ```sh
+    cd crypto
+    RUSTFLAGS="-Awarnings" cargo test --release --package bbs_plus --lib -- threshold::threshold_bbs_plus::tests::signing_t_out_of_n --exact --show-output 
     ```

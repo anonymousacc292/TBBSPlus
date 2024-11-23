@@ -42,6 +42,11 @@ path = "benches/n_out_of_n_keygen.rs"
 harness = false
 
 [[bench]]
+name = "n_out_of_n_client"
+path = "benches/n_out_of_n_client.rs"
+harness = false
+
+[[bench]]
 name = "t_out_of_n_sign"
 path = "benches/t_out_of_n_sign.rs"
 harness = false
@@ -49,6 +54,11 @@ harness = false
 [[bench]]
 name = "t_out_of_n_keygen"
 path = "benches/t_out_of_n_keygen.rs"
+harness = false
+
+[[bench]]
+name = "t_out_of_n_client"
+path = "benches/t_out_of_n_client.rs"
 harness = false
 
 [[bench]]
