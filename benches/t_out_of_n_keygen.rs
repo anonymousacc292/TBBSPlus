@@ -45,7 +45,7 @@ fn criterion_benchmark(c: &mut Criterion) {
     // SET-BBS+
     group.bench_function("Benchmarking 10 out of 11 parties keygen phase of SET-BBS+", |b| {
         b.iter(|| {
-            let _ = t_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+            let _ = t_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
         })
     });
 

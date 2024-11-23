@@ -1,6 +1,6 @@
-pub mod sebbsplus;
+pub mod setbbsplus;
 use bls12_381::G1Affine;
-pub use sebbsplus::*;
+pub use setbbsplus::*;
 
 pub mod wmc24;
 pub use wmc24::*;

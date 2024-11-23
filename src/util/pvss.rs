@@ -125,7 +125,7 @@ mod tests {
     use ff::{Field, PrimeField};
     use rand::SeedableRng;
 
-    use crate::{n_out_of_n::sebbsplus::KeyGen,MODULUS};
+    use crate::{n_out_of_n::setbbsplus::KeyGen,MODULUS};
 
     use super::*;
 

@@ -46,7 +46,7 @@ fn criterion_benchmark(c: &mut Criterion) {
     // SEBBS+
     group.bench_function("Benchmarking keygen SEBBS+ for 10 parties", |b| {
         b.iter(|| {
-            let _ = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
+            let _ = n_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
         })
     });
 
@@ -57,10 +57,10 @@ fn criterion_benchmark(c: &mut Criterion) {
         })
     });
 
-    let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
+    let key_msg = n_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
     group.bench_function("Benchmarking sign SEBBS+ for 10 parties", |b| {
         b.iter(|| {
-            let _ = n_out_of_n::sebbsplus::Sign::sign(
+            let _ = n_out_of_n::setbbsplus::Sign::sign(
                 &cl,
                 n,
                 l,
@@ -81,12 +81,12 @@ fn criterion_benchmark(c: &mut Criterion) {
         })
     });
 
-    let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
+    let key_msg = n_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
     let sign_msg =
-        n_out_of_n::sebbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
+        n_out_of_n::setbbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
     group.bench_function("Benchmarking client SEBBS+ for 10 parties", |b| {
         b.iter(|| {
-            n_out_of_n::sebbsplus::Sign::client(&cl, &sign_msg, &msg, l);
+            n_out_of_n::setbbsplus::Sign::client(&cl, &sign_msg, &msg, l);
         })
     });
 
@@ -104,7 +104,7 @@ fn criterion_benchmark(c: &mut Criterion) {
     // SEBBS+
     group.bench_function("Benchmarking keygen SEBBS+ for 20 parties", |b| {
         b.iter(|| {
-            let _ = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
+            let _ = n_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
         })
     });
 
@@ -115,10 +115,10 @@ fn criterion_benchmark(c: &mut Criterion) {
         })
     });
 
-    let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
+    let key_msg = n_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
     group.bench_function("Benchmarking sign SEBBS+ for 20 parties", |b| {
         b.iter(|| {
-            let _ = n_out_of_n::sebbsplus::Sign::sign(
+            let _ = n_out_of_n::setbbsplus::Sign::sign(
                 &cl,
                 n,
                 l,
@@ -139,12 +139,12 @@ fn criterion_benchmark(c: &mut Criterion) {
         })
     });
 
-    let key_msg = n_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
+    let key_msg = n_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, l, &mut rng, &mut scalr_rng);
     let sign_msg =
-        n_out_of_n::sebbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
+        n_out_of_n::setbbsplus::Sign::sign(&cl, n, l, &mut rng, &mut scalr_rng, &key_msg, &msg, &q);
     group.bench_function("Benchmarking client SEBBS+ for 20 parties", |b| {
         b.iter(|| {
-            n_out_of_n::sebbsplus::Sign::client(&cl, &sign_msg, &msg, l);
+            n_out_of_n::setbbsplus::Sign::client(&cl, &sign_msg, &msg, l);
         })
     });
 

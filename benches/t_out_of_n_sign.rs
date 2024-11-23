@@ -43,10 +43,10 @@ fn criterion_benchmark(c: &mut Criterion) {
     let n = 11;
     let t = 10;
 
-    let key_msg = t_out_of_n::sebbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
+    let key_msg = t_out_of_n::setbbsplus::KeyGen::keygen(&cl, n, t, l, &mut rng, &mut scalr_rng);
     group.bench_function("Benchmarking 10 out of 11 parties signing phase of SET-BBS+", |b| {
         b.iter(|| {
-            let _ = t_out_of_n::sebbsplus::Sign::sign(
+            let _ = t_out_of_n::setbbsplus::Sign::sign(
                 &cl,
                 t,
                 l,
