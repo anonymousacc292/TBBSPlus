@@ -120,7 +120,7 @@ The detailed commands for running the experiments are as follows:
     ```sh
     RUSTFLAGS="-Awarnings" cargo bench --bench t_out_of_n_client
     ```
-*  The signing, key generation phase and client phase of of DKL+23
+*  The signing, key generation phase and client phase of of DKL+23. (The key generation phase, including the conversion for the t-out-of-n access structure, is implemented as the trusted party key generation in their repository at `crypto/bbs_plus/src/threshold/threshold_bbs_plus.rs#228`. This implementation does not include the generation and verification of zero-knowledge proofs during the key generation phase, making their key generation significantly faster than ours.)
     ```sh
     cd crypto
     RUSTFLAGS="-Awarnings" cargo test --release --package bbs_plus --lib -- threshold::threshold_bbs_plus::tests::signing_t_out_of_n --exact --show-output 
