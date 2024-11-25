@@ -42,11 +42,11 @@ The code for the main protocols is located as follows:
 1. Install Docker. Official guideline (https://docs.docker.com/get-started/get-docker/)
 2. Pull our image.
     ```sh
-        docker pull mengling333666/meng:escrow
+        docker pull 
     ```
 3. Run the container.     
     ```sh
-        docker run -it mengling333666/meng:escrow /bin/bash
+        docker run -it  /bin/bash
     ```
 
 ### Depolyment via Source Code
