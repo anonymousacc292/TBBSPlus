@@ -48,6 +48,10 @@ The code for the main protocols is located as follows:
     ```sh
         docker run -it gypsophila661/tbbsplus:1.0 /bin/bash
     ```
+4. Open the project folder.
+   ```sh
+        cd ~/TBBSPlus/
+   ```
 
 ### Depolyment via Source Code
 
@@ -65,12 +69,12 @@ The code for the main protocols is located as follows:
    ```
 3. Compile the `prime` submodule
     ```sh
-        cd ${repo_path}/prime/src/lib
+        cd ~/TBBSPlus/prime/src/lib
         bash prime.sh
     ```
 4. Compile the repository
     ```sh
-        cd ${repo_path}
+        cd ~/TBBSPlus/
         cargo build
     ```
 #### On macOS Sonoma 14.0
@@ -85,7 +89,7 @@ Steps 2, 3, and 4 are identical to the above.
 A quick method to evaluate the performance of the signing phase for SET-BBS+, the state-of-the-art WMC24, and DKL+23 in both n-out-of-n and t-out-of-n scenarios.
 
 ```sh
-    cd ${repo_path}
+    cd ~/TBBSPlus/
     python3 fast_run.py
 ```
 The detailed commands for running the experiments are as follows:
