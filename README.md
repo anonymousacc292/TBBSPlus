@@ -42,11 +42,11 @@ The code for the main protocols is located as follows:
 1. Install Docker. Official guideline (https://docs.docker.com/get-started/get-docker/)
 2. Pull our image.
     ```sh
-        docker pull 
+        docker pull gypsophila661/tbbsplus:1.0
     ```
 3. Run the container.     
     ```sh
-        docker run -it  /bin/bash
+        docker run -it gypsophila661/tbbsplus:1.0 /bin/bash
     ```
 
 ### Depolyment via Source Code
