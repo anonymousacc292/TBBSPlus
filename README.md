@@ -14,6 +14,7 @@ We provide the two methods for reproducing the performance comparison between ou
 ## Table of Contents
 - [Threshold BBS+](#threshold-bbs)
   - [Table of Contents](#table-of-contents)
+  - [Performance](#performance)
   - [Implementation](#implementation)
   - [Instructions for Reproduction](#instructions-for-reproduction)
     - [Depolyment via Docker](#depolyment-via-docker)
