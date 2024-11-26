@@ -31,6 +31,7 @@ We provide the security proof in the style of DKL+23 of our protocol in the t-ou
   - [Discussion on Experiment Results](#discussion-on-experiment-results)
  
 ## Performance
+We use the Rust benchmarking library `criterion`, which conducts multiple measurements and applies statistical analysis for robust results. This allows us to confidently report millisecond-level timings with high precision.
 ![sign](./performance_pic/sign1.jpg)
 ![sign](./performance_pic/keygen1.jpg)
 ![sign](./performance_pic/client2.jpg)
