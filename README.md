@@ -28,18 +28,18 @@ We provide the two methods for reproducing the performance comparison between ou
  
 ## Performance
 <div style="display: flex; justify-content: space-between;">
-  <img src="./performance_pic/n_to_n_sign.jpg" alt="n_to_n_sign" style="width: 50%;">
-  <img src="./performance_pic/t_to_n_sign.jpg" alt="t_to_n_sign" style="width: 50%;">
+  <img src="./performance_pic/n_to_n_sign.jpg" alt="n_to_n_sign" style="width: 49%;">
+  <img src="./performance_pic/t_to_n_sign.jpg" alt="t_to_n_sign" style="width: 49%;">
 </div>
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="./performance_pic/n_to_n_keygen.jpg" alt="n_to_n_keygen" style="width: 50%;">
-  <img src="./performance_pic/t_to_n_keygen.jpg" alt="t_to_n_keygen" style="width: 50%;">
+  <img src="./performance_pic/n_to_n_keygen.jpg" alt="n_to_n_keygen" style="width: 49%;">
+  <img src="./performance_pic/t_to_n_keygen.jpg" alt="t_to_n_keygen" style="width: 49%;">
 </div>
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="./performance_pic/n_to_n_client.jpg" alt="n_to_n_client" style="width: 50%;">
-  <img src="./performance_pic/t_to_n_client.jpg" alt="t_to_n_client" style="width: 50%;">
+  <img src="./performance_pic/n_to_n_client.jpg" alt="n_to_n_client" style="width: 49%;">
+  <img src="./performance_pic/t_to_n_client.jpg" alt="t_to_n_client" style="width: 49%;">
 </div>
 
 ## Implementation
