@@ -31,7 +31,8 @@ We provide the two methods for reproducing the performance comparison between ou
 ![sign](./performance_pic/keygen.jpg)
 ![sign](./performance_pic/client.jpg)
 
-
+**Note** 
+In the DKL+23 implementation, their key generation process is much faster than ours since it is implemented as the trusted party key generation, which does not include the generation and verification of zero-knowledge proofs during this phase. The corresponding code is located in their repository at `crypto/bbs_plus/src/threshold/threshold_bbs_plus.rs#237` for n-out-of-n and at `crypto/bbs_plus/src/threshold/threshold_bbs_plus.rs#228` for t-out-of-n, respectively.
 ## Implementation
 The code for the main protocols is located as follows:
   * `src/n_out_of_n/setbbsplus` n-out-of-n SET-BBS+ 
@@ -111,7 +112,7 @@ The detailed commands for running the experiments are as follows:
     ```sh
     RUSTFLAGS="-Awarnings" cargo bench --bench n_out_of_n_client
     ```
-*  The signing, key generation phase and client phase of of DKL+23 (The key generation phase is implemented as the trusted party key generation in their repository at `crypto/bbs_plus/src/threshold/threshold_bbs_plus.rs#237`. This implementation does not include the generation and verification of zero-knowledge proofs during the key generation phase, making their key generation much faster than ours.)
+*  The signing, key generation phase and client phase of of DKL+23 
     ```sh
     cd crypto
     RUSTFLAGS="-Awarnings" cargo test --release --package bbs_plus --lib -- threshold::threshold_bbs_plus::tests::signing_n_out_of_n --exact --show-output 
@@ -129,7 +130,7 @@ The detailed commands for running the experiments are as follows:
     ```sh
     RUSTFLAGS="-Awarnings" cargo bench --bench t_out_of_n_client
     ```
-*  The signing, key generation phase and client phase of of DKL+23. (The key generation phase, including the conversion for the t-out-of-n access structure, is implemented as the trusted party key generation in their repository at `crypto/bbs_plus/src/threshold/threshold_bbs_plus.rs#228`. This implementation does not include the generation and verification of zero-knowledge proofs during the key generation phase, making their key generation much faster than ours.)
+*  The signing, key generation phase and client phase of of DKL+23. 
     ```sh
     cd crypto
     RUSTFLAGS="-Awarnings" cargo test --release --package bbs_plus --lib -- threshold::threshold_bbs_plus::tests::signing_t_out_of_n --exact --show-output 
