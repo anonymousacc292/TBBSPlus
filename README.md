@@ -27,9 +27,9 @@ We provide the two methods for reproducing the performance comparison between ou
   - [Discussion on Experiment Results](#discussion-on-experiment-results)
  
 ## Performance
-<div style="display: flex; justify-content: space-between;">
-  <img src="./performance_pic/performance.png" alt="n_to_n_sign" >
-</div>
+![sign](./performance_pic/sign.jpg)
+![sign](./performance_pic/keygen.jpg)
+![sign](./performance_pic/client.jpg)
 
 
 ## Implementation
