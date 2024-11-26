@@ -9,6 +9,9 @@ We provide the two methods for reproducing the performance comparison between ou
 * Using Docker to reproduce our results in few minutes without installing prerequisites.
 * Configuring and deploying our code on Ubuntu and macOS
 
+**Security Proof of $t$-out-of-$n$ with Weak Partial Blindness**
+We provide the security proof in the style of DKL+23 of our protocol in the t-out-of-n setting with weak partial blindness at `security_proof.pdf`.
+
 **Note** To quickly validate our results, we set the default number of parties to 10-out-of-10 for the n-out-of-n scenario in our benchmarks. Additionally, to demonstrate that our signing protocol performs equally well in the t-out-of-n scenario, we set the default to 10-out-of-15, ensuring the number of signing parties remains the same as in the n-out-of-n scenario. We also provide detailed instructions below for updating the number of parties in our benchmarks.
   
 ## Table of Contents
