@@ -29,7 +29,7 @@ We provide the two methods for reproducing the performance comparison between ou
 ## Performance
 ![sign](./performance_pic/sign1.jpg)
 ![sign](./performance_pic/keygen1.jpg)
-![sign](./performance_pic/client1.jpg)
+![sign](./performance_pic/client2.jpg)
 
 **Note** 
 In DKL+23, their key generation process is much faster than ours since it is implemented as the trusted party key generation, which does not include the generation and verification of zero-knowledge proofs during this phase. The corresponding code is located in their repository at `crypto/bbs_plus/src/threshold/threshold_bbs_plus.rs#237` for n-out-of-n and at `crypto/bbs_plus/src/threshold/threshold_bbs_plus.rs#228` for t-out-of-n, respectively.
